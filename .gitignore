@@ -1,0 +1,23 @@
+﻿# Raw/private data
+/data/raw/*
+!/data/raw/.gitkeep
+ACQ files/
+*.acq
+*.xlsx
+*.xls
+
+# Large local exports and caches
+acq_text_exports/
+acq_metadata_exports/
+.tmp-*/
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Local environment/config
+.env
+*.local
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
