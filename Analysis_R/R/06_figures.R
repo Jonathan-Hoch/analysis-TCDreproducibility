@@ -776,10 +776,6 @@ build_ba_grid_gg <- function(df, vars_df, title,
     var <- ordered_vars[i, ]
     row_dps <- lapply(epochs, function(ep) build_paired(df, var$var_key, var$stem, ep, delta_baseline = FALSE))
 
-    if (var$var_key == "smo2") {
-      row_dps <- lapply(row_dps, function(dp) dp[abs(dp$v1 - dp$v2) <= 60, , drop = FALSE])
-    }
-
     y_vals <- numeric(0)
     for (dp in row_dps) {
       if (nrow(dp) >= 4) {

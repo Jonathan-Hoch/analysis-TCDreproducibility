@@ -18,7 +18,7 @@ var_excl <- list(
   mcav_gpi = c("K10V1", "F02V1", "M24V1"),
   cvci = c("K10V1", "F02V1", "M24V1"),
   cvri = c("M26V1", "F17V1", "F15V1", "M02V1", "F27V1/M16", "K05V1", "F26V2", "M21V1"),
-  smo2 = c("K05V1"),
+  smo2 = c("K05V1", "M24V1"),
   q = character(),
   tpr = c("F05V1"),
   sbp = character(),
