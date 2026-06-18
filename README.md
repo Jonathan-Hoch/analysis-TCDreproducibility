@@ -168,31 +168,31 @@ Open `B_Revised_Figures/06_minute_level_revisions.ipynb` and run all cells from 
 
 ### Figure 1 - CPT response time course
 
-![Figure 1. CPT response time course](B_Revised_Figures/Fig1_CPT_TimeCourse.png)
+![Figure 1. CPT response time course](Analysis_R/outputs/Fig1_CPT_TimeCourse.png)
 
 ### Figure 2 - Cardiovascular Bland-Altman plots
 
-![Figure 2. Cardiovascular Bland-Altman plots](B_Revised_Figures/Fig2_BA_Cardiovascular.png)
+![Figure 2. Cardiovascular Bland-Altman plots](Analysis_R/outputs/Fig2_BA_Cardiovascular.png)
 
 ### Figure 3 - Cerebrovascular Bland-Altman plots
 
-![Figure 3. Cerebrovascular Bland-Altman plots](B_Revised_Figures/Fig3_BA_Cerebrovascular.png)
+![Figure 3. Cerebrovascular Bland-Altman plots](Analysis_R/outputs/Fig3_BA_Cerebrovascular.png)
 
 ### Figure 4 - ICC and CCC summary
 
-![Figure 4. ICC and CCC summary](B_Revised_Figures/Fig4_ICC_CCC_Summary.png)
+![Figure 4. ICC and CCC summary](Analysis_R/outputs/Fig4_ICC_CCC_Summary.png)
 
 ### Figure 5 - Reliability by sex and menstrual-cycle matching
 
-![Figure 5. Reliability by sex and menstrual-cycle matching](B_Revised_Figures/Fig5_ICC_CCC_Sex_Menstrual.png)
+![Figure 5. Reliability by sex and menstrual-cycle matching](Analysis_R/outputs/Fig5_ICC_CCC_Sex_Menstrual.png)
 
 ### Figure 6 - Reliability excluding unmatched female participants
 
-![Figure 6. Reliability excluding unmatched female participants](B_Revised_Figures/Fig6_ICC_CCC_Exclude_Unmatched_Females.png)
+![Figure 6. Reliability excluding unmatched female participants](Analysis_R/outputs/Fig6_ICC_CCC_Exclude_Unmatched_Females.png)
 
 ### Supplementary Figure - ICC and CCC for all variables
 
-![Supplementary Figure. ICC and CCC for all variables](B_Revised_Figures/SupFig_ICC_CCC_AllVars.png)
+![Supplementary Figure. ICC and CCC for all variables](Analysis_R/outputs/SupFig1_ICC_CCC_AllVars.png)
 
 ---
 
