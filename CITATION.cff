@@ -5,8 +5,8 @@ type: software
 authors:
   - family-names: Hoch
     given-names: "Jonathan W."
-repository-code: "https://github.com/Jonathan-Hoch/analysis-TCD-reproducibility"
-url: "https://github.com/Jonathan-Hoch/analysis-TCD-reproducibility"
+repository-code: "https://github.com/Jonathan-Hoch/analysis-TCDreproducibility"
+url: "https://github.com/Jonathan-Hoch/analysis-TCDreproducibility"
 license: MIT
 date-released: 2026-06-12
 abstract: >-
