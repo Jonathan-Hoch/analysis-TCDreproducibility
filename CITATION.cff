@@ -1,0 +1,44 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the associated manuscript and archived software release."
+title: "TCD Reproducibility Analysis"
+type: software
+authors:
+  - family-names: Hoch
+    given-names: "Jonathan W."
+repository-code: "https://github.com/Jonathan-Hoch/analysis-TCD-reproducibility"
+url: "https://github.com/Jonathan-Hoch/analysis-TCD-reproducibility"
+license: MIT
+date-released: 2026-06-12
+abstract: >-
+  Reproducible analysis code and generated manuscript-ready outputs for
+  evaluating between-visit reproducibility of cerebrovascular and
+  cardiovascular responses during the cold pressor test.
+keywords:
+  - cerebrovascular reactivity
+  - cardiovascular reactivity
+  - cold pressor test
+  - reproducibility
+  - reliability
+preferred-citation:
+  type: article
+  title: >-
+    Between-visit Reproducibility of Cerebrovascular and Cardiovascular
+    Reactivity During the Cold Pressor Test
+  authors:
+    - family-names: Vondrasek
+      given-names: "John D."
+    - family-names: Hoch
+      given-names: "Jonathan W."
+    - family-names: Huang
+      given-names: "M."
+    - family-names: Belval
+      given-names: "Lauren N."
+    - family-names: Jarrard
+      given-names: "Craig P."
+    - family-names: Crandall
+      given-names: "Craig G."
+    - family-names: Watso
+      given-names: "J. Carter"
+  journal: "American Journal of Physiology-Heart and Circulatory Physiology"
+  year: 2026
+  notes: "Manuscript under review."
