@@ -40,8 +40,11 @@ print(reg$vif_df, row.names = FALSE, digits = 4)
 # ---- PPT and water temperature reliability ----
 cat("\n=== PPT and water temperature: V1 vs V2 reliability ===\n")
 rel <- build_ppt_water_reliability(df)
+ppt_water <- dplyr::bind_rows(rel$ppt, rel$water_temp)
 ppt_water_pain <- dplyr::bind_rows(rel$ppt, rel$water_temp, rel$pain)
+write_csv_minimal(ppt_water, file.path(config$output_dir, "Table_PPT_WaterTemp_Reliability.csv"))
 write_csv_minimal(ppt_water_pain, file.path(config$output_dir, "Table_PPT_WaterTemp_Pain_Reliability.csv"))
+cat("Wrote: Table_PPT_WaterTemp_Reliability.csv\n")
 cat("Wrote: Table_PPT_WaterTemp_Pain_Reliability.csv\n")
 
 show_cols <- c("Variable","n","Visit_1","Visit_2","Fixed_Bias",

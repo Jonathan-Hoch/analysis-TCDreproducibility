@@ -28,10 +28,10 @@ group_subset <- function(group_name) {
       return(identical(sex, "Male"))
     }
     if (group_name == "Female matched") {
-      return(identical(sex, "Female") && !grepl("Un-matched", match, fixed = TRUE))
+      return(identical(sex, "Female") && match %in% c("Luteal", "Follicular"))
     }
     if (group_name == "Female unmatched") {
-      return(identical(sex, "Female") && grepl("Un-matched", match, fixed = TRUE))
+      return(identical(sex, "Female") && !(match %in% c("Luteal", "Follicular")))
     }
     FALSE
   }
@@ -43,7 +43,7 @@ exclude_unmatched_females <- function(row) {
   if (is.na(match)) {
     match <- ""
   }
-  !(identical(sex, "Female") && grepl("Un-matched", match, fixed = TRUE))
+  !(identical(sex, "Female") && !(match %in% c("Luteal", "Follicular")))
 }
 
 build_reliability_stats_for_vars_r <- function(df, vars, subset_fun = NULL) {

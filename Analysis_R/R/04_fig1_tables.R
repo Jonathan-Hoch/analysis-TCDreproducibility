@@ -227,7 +227,7 @@ build_fig1_posthoc <- function(df, bonferroni_m = 3L) {
 
       norm_p <- if (n_comp >= 3) tryCatch(stats::shapiro.test(diff_ab)$p.value, error = function(e) NA_real_) else NA_real_
 
-      if (!is.na(norm_p) && norm_p >= 0.05) {
+      if (!is.na(norm_p) && norm_p > 0.05) {
         test_res <- stats::t.test(ta, tb, paired = TRUE)
         p_raw <- as.numeric(test_res$p.value)
         effect <- if (stats::sd(diff_ab) > 0) mean(diff_ab) / stats::sd(diff_ab) else NA_real_

@@ -40,17 +40,22 @@ for (name in names(outputs)) {
   out_path <- file.path(config$output_dir, paste0(name, ".csv"))
   write_csv_minimal(outputs[[name]], out_path)
   reference_path <- file.path(config$reference_dir, paste0(name, ".csv"))
-  comparison <- compare_csv_numeric(out_path, reference_path, tolerance = 1e-8)
-  print_csv_comparison(paste0(name, " comparison against Python reference:"), comparison)
-  if (!comparison$same_values) {
-    cat("  first mismatches:\n")
-    print(utils::head(comparison$mismatches, 15), row.names = FALSE)
+  if (file.exists(reference_path)) {
+    comparison <- compare_csv_numeric(out_path, reference_path, tolerance = 1e-8)
+    print_csv_comparison(paste0(name, " comparison against Python reference:"), comparison)
+    if (!comparison$same_values) {
+      cat("  first mismatches:\n")
+      print(utils::head(comparison$mismatches, 15), row.names = FALSE)
+    }
+  } else {
+    cat("Reference not present; skipped comparison: ", reference_path, "\n", sep = "")
   }
 }
 
 all_ok <- all(vapply(names(outputs), function(name) {
   out_path <- file.path(config$output_dir, paste0(name, ".csv"))
   reference_path <- file.path(config$reference_dir, paste0(name, ".csv"))
+  if (!file.exists(reference_path)) return(TRUE)
   compare_csv_numeric(out_path, reference_path, tolerance = 1e-8)$same_values
 }, logical(1)))
 

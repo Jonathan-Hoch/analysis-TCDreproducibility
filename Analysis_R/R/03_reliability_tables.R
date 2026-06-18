@@ -18,7 +18,7 @@ var_excl <- list(
   mcav_gpi = c("K10V1", "F02V1", "M24V1"),
   cvci = c("K10V1", "F02V1", "M24V1"),
   cvri = c("M26V1", "F17V1", "F15V1", "M02V1", "F27V1/M16", "K05V1", "F26V2", "M21V1"),
-  smo2 = c("K05V1", "M24V1"),
+  smo2 = c("K05V1", "K19V1", "F11V1", "F33V1", "M24V1"),
   q = character(),
   tpr = c("F05V1"),
   sbp = character(),
@@ -261,6 +261,33 @@ quantile_np <- function(x, prob) {
   as.numeric(stats::quantile(x, probs = prob, type = 7, names = FALSE))
 }
 
+mean_sd_string <- function(x) {
+  x <- as.numeric(x)
+  x <- x[!is.na(x)]
+  if (length(x) < 3) {
+    return(list(value = "", kind = "mean_sd"))
+  }
+  list(
+    value = paste0(fmt_sig3(mean(x)), " +/- ", fmt_sig3(stats::sd(x))),
+    kind = "mean_sd"
+  )
+}
+
+median_iqr_string <- function(x) {
+  x <- as.numeric(x)
+  x <- x[!is.na(x)]
+  if (length(x) < 3) {
+    return(list(value = "", kind = "median_iqr"))
+  }
+  list(
+    value = paste0(
+      fmt_sig3(stats::median(x)), " [",
+      fmt_sig3(quantile_np(x, 0.75) - quantile_np(x, 0.25)), "]"
+    ),
+    kind = "median_iqr"
+  )
+}
+
 summary_string <- function(x) {
   x <- as.numeric(x)
   x <- x[!is.na(x)]
@@ -268,14 +295,13 @@ summary_string <- function(x) {
     return(list(value = "", kind = ""))
   }
   if (stats::sd(x) == 0) {
-    return(list(value = paste0(fmt_sig3(mean(x)), " +/- ", fmt_sig3(stats::sd(x))), kind = "mean_sd"))
+    return(mean_sd_string(x))
   }
   p_norm <- tryCatch(stats::shapiro.test(x)$p.value, error = function(e) NA_real_)
-  if (!is.na(p_norm) && p_norm >= 0.05) {
-    return(list(value = paste0(fmt_sig3(mean(x)), " +/- ", fmt_sig3(stats::sd(x))), kind = "mean_sd"))
+  if (!is.na(p_norm) && p_norm > 0.05) {
+    return(mean_sd_string(x))
   }
-  iqr <- quantile_np(x, 0.75) - quantile_np(x, 0.25)
-  list(value = paste0(fmt_sig3(stats::median(x)), " [", fmt_sig3(iqr), "]"), kind = "median_iqr")
+  median_iqr_string(x)
 }
 
 paired_rank_biserial <- function(diff) {
@@ -299,7 +325,7 @@ paired_comparison <- function(dp) {
   diff <- dp$v1 - dp$v2
   norm_p <- tryCatch(stats::shapiro.test(diff)$p.value, error = function(e) NA_real_)
 
-  if (!is.na(norm_p) && norm_p >= 0.05) {
+  if (!is.na(norm_p) && norm_p > 0.05) {
     test <- stats::t.test(dp$v1, dp$v2, paired = TRUE)
     effect <- if (stats::sd(diff) == 0) NA_real_ else mean(diff) / stats::sd(diff)
     return(list(Test = "paired t", P = as.numeric(test$p.value), Effect = as.numeric(effect), Effect_type = "paired d"))
@@ -323,19 +349,17 @@ agreement_row <- function(df, var_key, stem, label, epoch) {
   if (nrow(dp) > 0) {
     v1s   <- summary_string(dp$v1)
     v2s   <- summary_string(dp$v2)
-    diffs <- summary_string(dp$v1 - dp$v2)
-    # Enforce IQR consistency: if any of the three is non-normal, all use median [IQR]
-    if (any(c(v1s$kind, v2s$kind, diffs$kind) == "median_iqr")) {
-      iqr_fmt <- function(x) {
-        x <- as.numeric(x[!is.na(x)])
-        if (length(x) < 3) return(list(value = "", kind = "median_iqr"))
-        list(value = paste0(fmt_sig3(stats::median(x)), " [",
-                            fmt_sig3(quantile_np(x, 0.75) - quantile_np(x, 0.25)), "]"),
-             kind = "median_iqr")
-      }
-      v1s   <- iqr_fmt(dp$v1)
-      v2s   <- iqr_fmt(dp$v2)
-      diffs <- iqr_fmt(dp$v1 - dp$v2)
+    # Keep visit summaries consistent with each other.
+    if (any(c(v1s$kind, v2s$kind) == "median_iqr")) {
+      v1s <- median_iqr_string(dp$v1)
+      v2s <- median_iqr_string(dp$v2)
+    }
+    # Fixed-bias presentation follows the paired-difference distribution,
+    # matching the paired test and effect size.
+    diffs <- if (identical(comp$Test, "paired t")) {
+      mean_sd_string(dp$v1 - dp$v2)
+    } else {
+      median_iqr_string(dp$v1 - dp$v2)
     }
     mae <- mean(abs(dp$v1 - dp$v2))
     denom <- abs((dp$v1 + dp$v2) / 2)

@@ -35,9 +35,12 @@ write_csv_minimal(table1, out_path)
 cat("Wrote: ", out_path, "\n", sep = "")
 
 reference_path <- file.path(config$reference_dir, "Table1_Characteristics.csv")
-comparison <- compare_csv_values(out_path, reference_path)
-print_csv_comparison("Table1 comparison against Python reference:", comparison)
-
-if (!comparison$same_values) {
-  quit(status = 1)
+if (file.exists(reference_path)) {
+  comparison <- compare_csv_values(out_path, reference_path)
+  print_csv_comparison("Table1 comparison against Python reference:", comparison)
+  if (!comparison$same_values) {
+    quit(status = 1)
+  }
+} else {
+  cat("Reference not present; skipped comparison: ", reference_path, "\n", sep = "")
 }

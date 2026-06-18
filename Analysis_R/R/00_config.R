@@ -2,9 +2,9 @@ find_repo_root <- function(start = getwd()) {
   path <- normalizePath(start, winslash = "/", mustWork = TRUE)
 
   repeat {
-    has_reference <- file.exists(file.path(path, "B_Revised_Figures", "build_minute_level_outputs.py"))
+    has_analysis <- file.exists(file.path(path, "Analysis_R", "R", "03_reliability_tables.R"))
     has_readme <- file.exists(file.path(path, "README.md"))
-    if (has_reference && has_readme) {
+    if (has_analysis && has_readme) {
       return(path)
     }
 

@@ -169,18 +169,14 @@ build_ppt_water_reliability <- function(df) {
     comp <- paired_comparison(dp)
     v1s  <- summary_string(dp$v1)
     v2s  <- summary_string(dp$v2)
-    diffs <- summary_string(dp$v1 - dp$v2)
-    if (any(c(v1s$kind, v2s$kind, diffs$kind) == "median_iqr")) {
-      iqr_fmt <- function(x) {
-        x <- as.numeric(x[!is.na(x)])
-        if (length(x) < 3) return(list(value = "", kind = "median_iqr"))
-        list(value = paste0(fmt_sig3(stats::median(x)), " [",
-                            fmt_sig3(quantile_np(x, 0.75) - quantile_np(x, 0.25)), "]"),
-             kind = "median_iqr")
-      }
-      v1s   <- iqr_fmt(dp$v1)
-      v2s   <- iqr_fmt(dp$v2)
-      diffs <- iqr_fmt(dp$v1 - dp$v2)
+    if (any(c(v1s$kind, v2s$kind) == "median_iqr")) {
+      v1s <- median_iqr_string(dp$v1)
+      v2s <- median_iqr_string(dp$v2)
+    }
+    diffs <- if (identical(comp$Test, "paired t")) {
+      mean_sd_string(dp$v1 - dp$v2)
+    } else {
+      median_iqr_string(dp$v1 - dp$v2)
     }
     mae  <- mean(abs(dp$v1 - dp$v2))
     denom <- abs((dp$v1 + dp$v2) / 2); denom[denom == 0] <- NA_real_
